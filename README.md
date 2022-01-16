@@ -1,19 +1,694 @@
 # weather-app
 
-## Project setup
+## 天气情况
+
+### 请求示例
+
 ```
-npm install
+https://wis.qq.com/weather/common?source=pc&province=上海&city=上海&weather_type=observe|forecast_1h|forecast_24h|tips
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
+
+
+### 请求参数
+
+| 参数         | 含义                                                         |
+| ------------ | ------------------------------------------------------------ |
+| source       | 请求来源，可以填 pc 即来自PC端                               |
+| province     | 省，比如山东省                                               |
+| city         | 市，比如临沂市                                               |
+| county      | 县区，比如兰山区                                             |
+| weather_type | 请求的天气类型，这里是最重要的，参数有：observe(观测站数据，例如温度大气压)，forecast_1h（按小时预报），forecast_24h（按天预报），tips（小提示），rise（日出日落，月出月落），air（空气质量），index（指数，比如穿衣指数等）等 |
+
+
+
+### 返回结果
+
+```json
+{
+    "data":{
+        "forecast_1h":{
+            "0":{
+                "degree":"0",
+                "update_time":"20220114000000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"北风",
+                "wind_power":"3"
+            },
+            "1":{
+                "degree":"0",
+                "update_time":"20220114010000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西北风",
+                "wind_power":"3"
+            },
+            "10":{
+                "degree":"3",
+                "update_time":"20220114100000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"南风",
+                "wind_power":"3"
+            },
+            "11":{
+                "degree":"4",
+                "update_time":"20220114110000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东风",
+                "wind_power":"3"
+            },
+            "12":{
+                "degree":"5",
+                "update_time":"20220114120000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东风",
+                "wind_power":"3"
+            },
+            "13":{
+                "degree":"6",
+                "update_time":"20220114130000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东风",
+                "wind_power":"3"
+            },
+            "14":{
+                "degree":"7",
+                "update_time":"20220114140000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "15":{
+                "degree":"7",
+                "update_time":"20220114150000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "16":{
+                "degree":"7",
+                "update_time":"20220114160000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "17":{
+                "degree":"7",
+                "update_time":"20220114170000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "18":{
+                "degree":"6",
+                "update_time":"20220114180000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "19":{
+                "degree":"5",
+                "update_time":"20220114190000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "2":{
+                "degree":"0",
+                "update_time":"20220114020000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西北风",
+                "wind_power":"3"
+            },
+            "20":{
+                "degree":"4",
+                "update_time":"20220114200000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "21":{
+                "degree":"4",
+                "update_time":"20220114210000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "22":{
+                "degree":"4",
+                "update_time":"20220114220000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "23":{
+                "degree":"4",
+                "update_time":"20220114230000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "24":{
+                "degree":"4",
+                "update_time":"20220115000000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "25":{
+                "degree":"3",
+                "update_time":"20220115010000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "26":{
+                "degree":"3",
+                "update_time":"20220115020000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"东南风",
+                "wind_power":"3"
+            },
+            "27":{
+                "degree":"2",
+                "update_time":"20220115030000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"南风",
+                "wind_power":"3"
+            },
+            "28":{
+                "degree":"2",
+                "update_time":"20220115040000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"南风",
+                "wind_power":"3"
+            },
+            "29":{
+                "degree":"1",
+                "update_time":"20220115050000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西南风",
+                "wind_power":"3"
+            },
+            "3":{
+                "degree":"0",
+                "update_time":"20220114030000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西北风",
+                "wind_power":"3"
+            },
+            "30":{
+                "degree":"2",
+                "update_time":"20220115060000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "31":{
+                "degree":"2",
+                "update_time":"20220115070000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "32":{
+                "degree":"2",
+                "update_time":"20220115080000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "33":{
+                "degree":"3",
+                "update_time":"20220115090000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "34":{
+                "degree":"5",
+                "update_time":"20220115100000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "35":{
+                "degree":"6",
+                "update_time":"20220115110000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "36":{
+                "degree":"7",
+                "update_time":"20220115120000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "37":{
+                "degree":"8",
+                "update_time":"20220115130000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "38":{
+                "degree":"9",
+                "update_time":"20220115140000",
+                "weather":"晴",
+                "weather_code":"00",
+                "weather_short":"晴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "39":{
+                "degree":"9",
+                "update_time":"20220115150000",
+                "weather":"晴",
+                "weather_code":"00",
+                "weather_short":"晴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "4":{
+                "degree":"0",
+                "update_time":"20220114040000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"北风",
+                "wind_power":"3"
+            },
+            "40":{
+                "degree":"9",
+                "update_time":"20220115160000",
+                "weather":"晴",
+                "weather_code":"00",
+                "weather_short":"晴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "41":{
+                "degree":"8",
+                "update_time":"20220115170000",
+                "weather":"晴",
+                "weather_code":"00",
+                "weather_short":"晴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "42":{
+                "degree":"7",
+                "update_time":"20220115180000",
+                "weather":"晴",
+                "weather_code":"00",
+                "weather_short":"晴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "43":{
+                "degree":"6",
+                "update_time":"20220115190000",
+                "weather":"晴",
+                "weather_code":"00",
+                "weather_short":"晴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "44":{
+                "degree":"5",
+                "update_time":"20220115200000",
+                "weather":"晴",
+                "weather_code":"00",
+                "weather_short":"晴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            },
+            "45":{
+                "degree":"5",
+                "update_time":"20220115210000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西北风",
+                "wind_power":"3"
+            },
+            "46":{
+                "degree":"5",
+                "update_time":"20220115220000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西北风",
+                "wind_power":"3"
+            },
+            "47":{
+                "degree":"5",
+                "update_time":"20220115230000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"西北风",
+                "wind_power":"3"
+            },
+            "5":{
+                "degree":"0",
+                "update_time":"20220114050000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"北风",
+                "wind_power":"3"
+            },
+            "6":{
+                "degree":"0",
+                "update_time":"20220114060000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"北风",
+                "wind_power":"3"
+            },
+            "7":{
+                "degree":"1",
+                "update_time":"20220114070000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"北风",
+                "wind_power":"3"
+            },
+            "8":{
+                "degree":"1",
+                "update_time":"20220114080000",
+                "weather":"多云",
+                "weather_code":"01",
+                "weather_short":"多云",
+                "wind_direction":"北风",
+                "wind_power":"3"
+            },
+            "9":{
+                "degree":"2",
+                "update_time":"20220114090000",
+                "weather":"阴",
+                "weather_code":"02",
+                "weather_short":"阴",
+                "wind_direction":"西风",
+                "wind_power":"3"
+            }
+        },
+        "forecast_24h":{
+            "0":{
+                "day_weather":"多云",
+                "day_weather_code":"01",
+                "day_weather_short":"多云",
+                "day_wind_direction":"东北风",
+                "day_wind_direction_code":"1",
+                "day_wind_power":"3",
+                "day_wind_power_code":"0",
+                "max_degree":"6",
+                "min_degree":"0",
+                "night_weather":"多云",
+                "night_weather_code":"01",
+                "night_weather_short":"多云",
+                "night_wind_direction":"微风",
+                "night_wind_direction_code":"0",
+                "night_wind_power":"3",
+                "night_wind_power_code":"0",
+                "time":"2022-01-13"
+            },
+            "1":{
+                "day_weather":"多云",
+                "day_weather_code":"01",
+                "day_weather_short":"多云",
+                "day_wind_direction":"东北风",
+                "day_wind_direction_code":"1",
+                "day_wind_power":"3",
+                "day_wind_power_code":"0",
+                "max_degree":"6",
+                "min_degree":"0",
+                "night_weather":"多云",
+                "night_weather_code":"01",
+                "night_weather_short":"多云",
+                "night_wind_direction":"微风",
+                "night_wind_direction_code":"0",
+                "night_wind_power":"3",
+                "night_wind_power_code":"0",
+                "time":"2022-01-13"
+            },
+            "2":{
+                "day_weather":"阴",
+                "day_weather_code":"02",
+                "day_weather_short":"阴",
+                "day_wind_direction":"东南风",
+                "day_wind_direction_code":"3",
+                "day_wind_power":"3",
+                "day_wind_power_code":"0",
+                "max_degree":"7",
+                "min_degree":"1",
+                "night_weather":"阴",
+                "night_weather_code":"02",
+                "night_weather_short":"阴",
+                "night_wind_direction":"东南风",
+                "night_wind_direction_code":"3",
+                "night_wind_power":"3",
+                "night_wind_power_code":"0",
+                "time":"2022-01-14"
+            },
+            "3":{
+                "day_weather":"阴",
+                "day_weather_code":"02",
+                "day_weather_short":"阴",
+                "day_wind_direction":"西北风",
+                "day_wind_direction_code":"7",
+                "day_wind_power":"3",
+                "day_wind_power_code":"0",
+                "max_degree":"12",
+                "min_degree":"4",
+                "night_weather":"阴",
+                "night_weather_code":"02",
+                "night_weather_short":"阴",
+                "night_wind_direction":"北风",
+                "night_wind_direction_code":"8",
+                "night_wind_power":"3",
+                "night_wind_power_code":"0",
+                "time":"2022-01-15"
+            },
+            "4":{
+                "day_weather":"阴",
+                "day_weather_code":"02",
+                "day_weather_short":"阴",
+                "day_wind_direction":"东北风",
+                "day_wind_direction_code":"1",
+                "day_wind_power":"3",
+                "day_wind_power_code":"0",
+                "max_degree":"9",
+                "min_degree":"3",
+                "night_weather":"小雨",
+                "night_weather_code":"07",
+                "night_weather_short":"小雨",
+                "night_wind_direction":"北风",
+                "night_wind_direction_code":"8",
+                "night_wind_power":"3",
+                "night_wind_power_code":"0",
+                "time":"2022-01-16"
+            },
+            "5":{
+                "day_weather":"阴",
+                "day_weather_code":"02",
+                "day_weather_short":"阴",
+                "day_wind_direction":"东北风",
+                "day_wind_direction_code":"1",
+                "day_wind_power":"3",
+                "day_wind_power_code":"0",
+                "max_degree":"6",
+                "min_degree":"2",
+                "night_weather":"阴",
+                "night_weather_code":"02",
+                "night_weather_short":"阴",
+                "night_wind_direction":"东风",
+                "night_wind_direction_code":"2",
+                "night_wind_power":"3",
+                "night_wind_power_code":"0",
+                "time":"2022-01-17"
+            },
+            "6":{
+                "day_weather":"阴",
+                "day_weather_code":"02",
+                "day_weather_short":"阴",
+                "day_wind_direction":"西北风",
+                "day_wind_direction_code":"7",
+                "day_wind_power":"3",
+                "day_wind_power_code":"0",
+                "max_degree":"9",
+                "min_degree":"3",
+                "night_weather":"多云",
+                "night_weather_code":"01",
+                "night_weather_short":"多云",
+                "night_wind_direction":"西北风",
+                "night_wind_direction_code":"7",
+                "night_wind_power":"3",
+                "night_wind_power_code":"0",
+                "time":"2022-01-18"
+            },
+            "7":{
+                "day_weather":"晴",
+                "day_weather_code":"00",
+                "day_weather_short":"晴",
+                "day_wind_direction":"西北风",
+                "day_wind_direction_code":"7",
+                "day_wind_power":"3",
+                "day_wind_power_code":"0",
+                "max_degree":"9",
+                "min_degree":"3",
+                "night_weather":"晴",
+                "night_weather_code":"00",
+                "night_weather_short":"晴",
+                "night_wind_direction":"北风",
+                "night_wind_direction_code":"8",
+                "night_wind_power":"3",
+                "night_wind_power_code":"0",
+                "time":"2022-01-19"
+            }
+        },
+        "observe":{
+            "degree":"2",
+            "humidity":"58",
+            "precipitation":"0",
+            "pressure":"1029",
+            "update_time":"202201140045",
+            "weather":"晴",
+            "weather_code":"00",
+            "weather_short":"晴",
+            "wind_direction":"2",
+            "wind_power":"1"
+        },
+        "tips":{
+            "observe":{
+                "0":"你若安好，便是晴天~",
+                "1":"天有点冷，注意保暖~"
+            }
+        }
+    },
+    "message":"OK",
+    "status":200
+}
 ```
 
-### Compiles and minifies for production
+
+## 城市搜索结果
+
+### 请求示例
+
 ```
-npm run build
+https://wis.qq.com/city/like?source=pc&city=上海
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### 请求参数
+
+| 参数   | 含义                                                     |
+| ------ | -------------------------------------------------------- |
+| source | 请求来源，可以填 pc 即来自PC端                           |
+| city   | 请求的位置，比如临沂，或者兰山区，返回一个模糊匹配结果集 |
+
+
+
+### 返回结果
+
+```json
+{
+    "data":{
+        "101020100":"上海, 上海"
+    },
+    "message":"OK",
+    "status":200
+}
+```
+
+
+## 天气图标抓取
+### 请求示例
+
+```
+http://mat1.gtimg.com/pingjs/ext2020/weather/pc/icon/weather/night/00.png
+```
+
+
+
+### 参数
+
+| 参数        | 含义                                                         |
+| ----------- | ------------------------------------------------------------ |
+| weatherCode | 天气图标是根据weatherCode字段，然后请求不同的链接，weatherCode字段比如00表示晴转晴，01表示晴转多云。 |
+| day/night   | 判断白天黑夜的方法也很简单，抓取时间 `update_time` 转为小时，白天时间为06:00-18:00 |
+
+
+
+## 参考
+
+https://github.com/bestyize/MiniWeather
