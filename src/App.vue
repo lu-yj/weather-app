@@ -1,8 +1,14 @@
 <template>
-  <div id="app">
-    <header>
-      <search-bar></search-bar>
+  <div id="app" @click="searching = false">
+    <header class="outerBackground">
+      <div class="innerBackground">
+        <div class="contentContainer">
+          <div class="logo" @click.stop="searching = false">准吗天气</div>
+          <search-box :searching="searching" :location="location" @choose-city="changeCity" @click.stop="searching = true"></search-box>
+        </div>
+      </div>
     </header>
+    <nav class="location">{{location}}</nav>
     <section>
       <weather-overview :observe="weather.data.observe" :tips="weather.data.tips.observe" :air="weather.data.air"></weather-overview>
       <air-quality-map></air-quality-map>
@@ -19,18 +25,18 @@
 </template>
 
 <script>
-import SearchBar from './components/SearchBar.vue'
+import SearchBox from './components/SearchBox.vue'
 import AirQualityMap from './components/AirQualityMap.vue'
 import ForecastDays from './components/ForecastDays.vue'
 import ForecastHours from './components/ForecastHours.vue'
 import WeatherOverview from './components/WeatherOverview.vue'
 import MapCarousel from './components/MapCarousel.vue'
-import { getWeather } from './api/ajax'
+import { getWeather, searchCity } from './api/ajax'
 
 export default {
   name: 'App',
   components: {
-    SearchBar,
+    SearchBox,
     WeatherOverview,
     AirQualityMap,
     ForecastDays,
@@ -39,9 +45,18 @@ export default {
   },
   data() {
     return {
-      weather: {},
+      weather: {
+        data: {
+          observe: ''
+        }
+      },
       preScrollTop: 0,
       isShow: false,
+      searching: false,
+      province: '上海',
+      city: '上海',
+      county: '',
+      location: '',
     }
   },
   methods: {
@@ -51,11 +66,33 @@ export default {
       this.preScrollTop = curScrollTop;
       if (scroll > 0) return this.isShow = false;
       if (scroll < 0) return this.isShow = true;
+    },
+    async changeCity(city) {
+      this.location = city;
+      this.weather = await getWeather(...city.split(', '));
+      console.log(this.weather);
+    },
+    getLocation(citySN) {
+      if (!citySN.includes('市')) {
+        return ['上海', '上海'];
+      }
+      else {
+        citySN = citySN.split('市')[0];
+        if (citySN.includes('自治区')) {
+            return [citySN.slice(0, 2), citySN.slice(citySN.indexOf('自治区') + 3)];
+          } else if (citySN.includes('省')) {
+            return citySN.split('省');
+          } else {
+            return [citySN, citySN];
+          }
+      }
     }
   },
   async created() {
-    this.weather = await getWeather(this.$store.state.location.province, this.$store.state.location.city);
-    console.log(this.weather);
+    [this.province, this.city] = this.getLocation(returnCitySN.cname);
+    this.location = this.province + ', ' + this.city;
+    this.weather = await getWeather(this.province, this.city);
+    console.log(this.weather, this.location);
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll, true);
@@ -76,25 +113,54 @@ export default {
 <style lang="less" scoped>
 #app{
   // background-image: linear-gradient(180deg, #28456E 0%, #142444 100%);
-  // background-image: linear-gradient(rgb(68, 68, 108) 0%, rgb(44, 44, 84) 100%);
-  background-image: linear-gradient(rgb(45, 65, 86) 0%, rgb(26, 28, 36) 100%);;
+  background-image: linear-gradient(rgb(68, 68, 108) 0%, rgb(44, 44, 84) 100%);
+  // background-image: linear-gradient(rgb(45, 65, 86) 0%, rgb(26, 28, 36) 100%);;
   // height:200vh;
 }
 header{
   position: fixed;
-  width: 100vw;
-  height: 60px;
-  background-color: rgba(255, 255, 255, 0.08);
+  width: 100%;
+  height: 48px;
+  background-color: #3E3E62;
+  z-index: 10;
+  .innerBackground{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .contentContainer{
+      width: 1236px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo{
+      font-family: '楷体';
+      font-size: 36px;
+    }
+  }
 }
-.footer-enter-active, .footer-leave-active {
-  transition: bottom 200ms ease-in-out;
+.footer-enter-active, .footer-leave-active {transition: bottom 200ms ease-in-out;}
+.footer-enter-from, .footer-leave-to {bottom: -26px;}
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 26px;
+  line-height: 26px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(43, 43, 43);
+  font-size: 13px;
+  z-index: 10;
 }
-.footer-enter-from, .footer-leave-to {
-  bottom: -26px;
+nav{
+  padding-top: 100px;
 }
 section{
-  // margin-top: 100px;
-  padding-top: 100px;
   display: grid;
   grid-template-columns: repeat(4, 300px);
   grid-template-rows: 270px auto;
@@ -105,9 +171,15 @@ section{
     "fd fd fd fd"
     "fh fh fh fh"
     "mc mc mc mc";
+  #weather-overview { grid-area: wo }
+  #air-quality-map { grid-area: aqm }
+  #forecast-days { grid-area: fd }
+  #forecast-hours { grid-area: fh }
+  #map-carousel { grid-area: mc }
 }
 
 @media screen and (max-width: 1300px) {
+  header{.innerBackground{.contentContainer{width: 924px;}}}
   section {
     grid-template-columns: repeat(3, 300px);
     grid-template-areas: 
@@ -118,6 +190,7 @@ section{
   }
 }
 @media screen and (max-width: 1000px) {
+  header{.innerBackground{.contentContainer{width: 612px;}}}
   section {
     grid-template-columns: 612px;
     grid-template-rows: 270px 270px auto;
@@ -128,22 +201,5 @@ section{
       "fh"
       "mc";
   }
-}
-#weather-overview { grid-area: wo }
-#air-quality-map { grid-area: aqm }
-#forecast-days { grid-area: fd }
-#forecast-hours { grid-area: fh }
-#map-carousel { grid-area: mc }
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
-  height: 26px;
-  line-height: 26px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgb(43, 43, 43);
-  font-size: 13px;
 }
 </style>

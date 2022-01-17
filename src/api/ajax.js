@@ -15,8 +15,8 @@ function jsonp(url, ...args) {
     });
 }
 
-export function getWeather(province='上海', city='上海', type='observe|tips|air|forecast_1h|forecast_24h') {
-    return jsonp('https://wis.qq.com/weather/common', 'source=pc', `weather_type=${type}`, `province=${province}`, `city=${city}`);
+export function getWeather(province='上海', city='上海', county='') {
+    return jsonp('https://wis.qq.com/weather/common', 'source=pc', 'weather_type=observe|tips|air|forecast_1h|forecast_24h', `province=${province}`, `city=${city}`, `county=${county}`);
 }
 
 // export function getToutiaoApi() {
@@ -26,5 +26,3 @@ export function getWeather(province='上海', city='上海', type='observe|tips|
 export function searchCity(city='上海') {
     return jsonp('https://wis.qq.com/city/like', 'source=pc', `city=${city}`);
 }
-
-

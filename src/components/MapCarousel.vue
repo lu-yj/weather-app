@@ -5,22 +5,22 @@
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" v-for="item in category">
-                        
-                            <img :src="`https://assets.msn.com/weathermapdata/1/static/icons2/${item[1]}.gif`" alt="">
-                            <div class="filter"></div>
-                            <div class="description">
-                                <a :href="`https://www.msn.cn/zh-cn/weather/maps/${item[0]}`">
-                                    <div class="firstLine">{{item[2]}}</div>
-                                    <div class="secondLine">{{item[3]}}</div>
-                                </a>
-                            </div>
-                        
+                        <img class="map" :src="`https://assets.msn.com/weathermapdata/1/static/icons2/${item[1]}.gif`" alt="">
+                        <div class="filter"></div>
+                        <div class="description">
+                            <div class="firstLine">{{item[2]}}</div>
+                            <a class="secondLine" :href="`https://www.msn.cn/zh-cn/weather/maps/${item[0]}`">{{item[3]}}</a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide more">
+                        <img class="miniMap" src="https://assets.msn.com/weathermapdata/1/static/icons2/106/image-20211206144938125.png" alt="">
+                        <a class="content" href="https://www.msn.cn/zh-cn/weather/maps/temperature">查看更多内容</a>
                     </div>
                 </div>
                 <div class="swiper-pagination" v-if="false"></div>
             </div>
-            <div class="swiper-button-prev swiper-button-white"></div>
-            <div class="swiper-button-next swiper-button-white"></div>
+            <div class="swiper-button-prev swiper-button-black"></div>
+            <div class="swiper-button-next swiper-button-black"></div>
         </div>
     </div>
 </template>
@@ -83,13 +83,20 @@ export default {
                 height: 150px;                
                 position: relative;
                 overflow: hidden;
-                img{
-                    // position: absolute;
-                    // top: 0;
-                    // left: 0;
-                    
+                .map{
                     height: 100%;
                 }
+                .filter{
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        top: 0;
+                        left: 0;
+                        background-repeat: no-repeat;
+                        background-position: bottom;
+                        background-size: 100% 79px;
+                        background-image: linear-gradient(0, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0) 100%);
+                    }
                 .description{
                     position: absolute;
                     left: 15px;
@@ -102,38 +109,34 @@ export default {
                         font-size: 12px;
                     }
                 }
-            .filter{
-                position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    top: 0;
-                    left: 0;
-                    background-repeat: no-repeat;
-                    background-position: bottom;
-                    background-size: 100% 79px;
-                    background-image: linear-gradient(360deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.28) 63.71%, rgba(0, 0, 0, 0) 100%);
+            }
+            .more{
+                background-color: rgba(0, 0, 0, 0.7);
+                padding-left: 12px;
+                display: flex;
+                align-items: center;
+                .miniMap{
+                    width: 118px;
+                    height: 80px;
                 }
-                   
-                    
-                    
-                
+                .content{
+                    padding-left: 10px;
+                    font-size: 12px;
+                }
             }
         }
         .swiper-button-prev, .swiper-button-next{
-            background-color: rgba(255, 255, 255, 0.08);
-            width: 24px;
-            height: 24px;
-            border-radius: 12px;
+            background-color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 14px;
             position: absolute;
-            top: 42px;
+            top: 63px;
             margin: 0;
-            ::after{
-                font-size: 12px;
-            }
         }
-        .swiper-button-prev{left: -12px;}
-        .swiper-button-next{right: -12px;}
-        .swiper-button-prev::after, .swiper-button-next::after{font-size: 12px;}
+        .swiper-button-prev{left: -14px;}
+        .swiper-button-next{right: -14px;}
+        .swiper-button-prev::after, .swiper-button-next::after{font-size: 14px;}
     }
 }
 </style>

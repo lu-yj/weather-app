@@ -11,7 +11,6 @@
 
 <script>
 import * as echarts from 'echarts';
-import { getWeather } from '../api/ajax';
 
 export default{
     data() {
@@ -19,15 +18,31 @@ export default{
             degree: [],
             time: [],
             midnightIndex: [],
-            pastWeather: {},
-            futureWeather: {}
+            myChart: null
         }
     },
     props: ['forecast_1h'],
+    watch: {
+        forecast_1h(oldVal, newVal) {
+            console.log('在看', oldVal, newVal);
+            this.handleData(newVal);
+            this.drawLine();
+        }
+    },
     methods: {
+        handleData(data) {
+            data = Object.values(data);
+            this.degree = data.map((v) => v.degree);
+            this.time = data.map((v, idx) => {
+            if (v.update_time.slice(8, 10) === '00') this.midnightIndex.push(idx);
+                return v.update_time});
+        },
         drawLine() {
-            let myChart = echarts.init(document.getElementById('echart'));
-            myChart.setOption({
+            if (this.myChart != null && this.myChart!= "" && this.myChart!= undefined) {
+                this.myChart.dispose();
+            }
+            this.myChart = echarts.init(document.getElementById('echart'));
+            this.myChart.setOption({
                 grid: {
                     containLabel: true,
                     left: 0,
@@ -127,16 +142,10 @@ export default{
             });
         }
     },
-    async mounted() {
-        let res = await getWeather(this.$store.state.location.province, this.$store.state.location.city, 'forecast_1h');
-                    console.log('4455', res);
-        res = Object.values(res.data.forecast_1h);
-        // console.log(res);
-        this.degree = res.map((v) => v.degree);
-        this.time = res.map((v, idx) => {
-            if (v.update_time.slice(8, 10) === '00') this.midnightIndex.push(idx);
-            return v.update_time});
+    mounted() {
+        this.handleData(this.forecast_1h);
         this.drawLine();
+        console.log(this.forecast_1h)
     }
 }
 </script>

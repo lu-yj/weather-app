@@ -8,19 +8,31 @@
         </div>
         <div class="tips">{{tips[1]}}</div>
         <div class="detail">
-            <div v-for="item in detail">
-                <div class="key">{{item[0]}}</div>
+            <div>
+                <div class="key">空气质量指数</div>
                 <div class="value">
-                    <svg v-if="item[0] === '空气质量指数'" width="14" height="14" viewBox="0 0 10 14">
+                    <svg width="14" height="14" viewBox="0 0 10 14">
                         <circle cx="5" cy="8" r="4" :style="{fill: aqiCompute(air.aqi)}"></circle>
                     </svg>
-                    {{item[1]}}
+                    {{air.aqi}}
                 </div>
             </div>
-            <!-- <div class="airQuality">空气质量指数{{air.aqi}}</div>
-            <div class="wind">风向{{observe.wind_direction}} 风速{{observe.wind_power}}</div>
-            <div class="humidity">湿度{{observe.humidity}}</div>
-            <div class="pressure">气压{{observe.pressure}}</div> -->
+            <div>
+                <div class="key">风向</div>
+                <div class="value">{{windDirection[observe.wind_direction]}}</div>
+            </div>
+            <div>
+                <div class="key">风速</div>
+                <div class="value">{{observe.wind_power}} 级</div>
+            </div>
+            <div>
+                <div class="key">湿度</div>
+                <div class="value">{{observe.humidity}}%</div>
+            </div>
+            <div>
+                <div class="key">气压</div>
+                <div class="value">{{observe.pressure}} 百帕</div>
+            </div>
         </div>
     </div>
 </template>
@@ -29,13 +41,6 @@
 export default{
     data() {
         return {
-            detail: [
-                ['空气质量指数', this.air.aqi],
-                ['风向', this.$store.state.windDirection[this.observe.wind_direction]],
-                ['风速', this.observe.wind_power + ' 级'],
-                ['湿度', this.observe.humidity + '%'],
-                ['气压', this.observe.pressure + ' 百帕']
-            ],
             bg: {
                 'day': {
                     '晴': 'Sunny',
@@ -53,17 +58,18 @@ export default{
                     '雾': 'Hazy%20Night',
                     '霾': 'Hazy%20Night'                 
                 }
-            }
+            },
+            windDirection: ['无持续风向', '东北风', '东风', '东南风', '南风', '西南风', '西风', '西北风', '北风'],
         }
     },
     props: ['observe', 'tips', 'air'],
     methods: {
         isNight() {
-            let hour = this.$store.state.currentTime.getHours();
+            let hour = new Date().getHours();
             return (hour < 6 || hour >= 18) ? 'night' : 'day';
         },
         bgParam() {
-            let hour = this.$store.state.currentTime.getHours();
+            let hour = new Date().getHours();
             let p1 = (hour < 6 || hour >= 18) ? 'night' : 'day';
             let p2 = this.observe.weather_short;
             return this.bg[p1][p2];
