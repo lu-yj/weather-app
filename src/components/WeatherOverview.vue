@@ -1,12 +1,12 @@
 <template>
-    <div id="weather-overview" :style="{backgroundImage: 'url(' + `https://assets.msn.cn/weathermapdata/1/static/background/v2.0/compactads3/${bgParam()}.png` + ')'}">
+    <div id="weather-overview" :style="{backgroundImage: `url(https://assets.msn.cn/weathermapdata/1/static/background/v2.0/compactads3/${bgParam()}.png)`}">
         <div class="updateTime">中央气象台 {{observe.update_time.slice(8, 10)}}:00 发布</div>
         <div class="summary">
             <img class="weatherCode" :src="`http://mat1.gtimg.com/pingjs/ext2020/weather/pc/icon/weather/${isNight()}/${observe.weather_code}.png`" alt="">
             <div class="degree">{{observe.degree}}°</div>
             <div class="weatherShort">{{observe.weather_short}}</div>
         </div>
-        <div class="tips">{{tips[1]}}</div>
+        <div class="tips">{{tips}}</div>
         <div class="detail">
             <div>
                 <div class="key">空气质量指数</div>
@@ -48,7 +48,8 @@ export default{
                     '雨': 'Rain%202',
                     '雪': 'Snow%202',
                     '雾': 'Light%20fog',
-                    '霾': 'Light%20fog'
+                    '霾': 'Light%20fog',
+                    '雷': 'Thunderstorms%202'  
                 },
                 'night': {
                     '晴': 'Clear%20Night',
@@ -56,7 +57,8 @@ export default{
                     '雨': 'Rain%201',
                     '雪': 'Snow%201',
                     '雾': 'Hazy%20Night',
-                    '霾': 'Hazy%20Night'                 
+                    '霾': 'Hazy%20Night',
+                    '雷': 'Thunderstorms%201'                 
                 }
             },
             windDirection: ['无持续风向', '东北风', '东风', '东南风', '南风', '西南风', '西风', '西北风', '北风'],

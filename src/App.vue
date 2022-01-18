@@ -1,5 +1,5 @@
 <template>
-  <div id="app" @click="searching = false">
+  <div id="app" @click="searching = false" :style="{backgroundImage: `linear-gradient(rgb(68, 68, 108) 0%, rgb(44, 44, 84) 100%)`}">
     <header class="outerBackground">
       <div class="innerBackground">
         <div class="contentContainer">
@@ -57,6 +57,7 @@ export default {
       city: '上海',
       county: '',
       location: '',
+      weather2color: {}
     }
   },
   methods: {
@@ -112,10 +113,17 @@ export default {
 
 <style lang="less" scoped>
 #app{
-  // background-image: linear-gradient(180deg, #28456E 0%, #142444 100%);
+  // background-image: linear-gradient(rgb(36, 84, 148) 0%, rgb(28, 68, 132) 100%); 'Sunny'
+  // background-image: linear-gradient(rgb(40, 69, 110) 0%, rgb(20, 36, 68) 100%); 晴朗夜晚
+  // background-image: linear-gradient(#28456E 0%, #142444 100%);
   background-image: linear-gradient(rgb(68, 68, 108) 0%, rgb(44, 44, 84) 100%);
-  // background-image: linear-gradient(rgb(45, 65, 86) 0%, rgb(26, 28, 36) 100%);;
-  // height:200vh;
+  // background: linear-gradient(rgb(36, 77, 114) 0%, rgb(7, 33, 59) 100%); 多云夜晚
+  // background-image: linear-gradient(rgb(45, 65, 86) 0%, rgb(26, 28, 36) 100%);
+  // background-image: linear-gradient(#2D4156 0%, #1A1C24 100%); // 'Hazy%20Night'
+  // background-image: linear-gradient(rgb(44, 70, 108) 0%, rgb(20, 36, 60) 100%); 雨夜
+  // background: linear-gradient(#1C2C44 0%, #0B1A2C 100%); 晚雪
+  // background: linear-gradient(#37314D 0%, #14142C 100%); 晚雷
+  // background: linear-gradient(#44446C 0%, #2C2C54 100%); 早雾
 }
 header{
   position: fixed;
@@ -158,7 +166,11 @@ footer {
   z-index: 10;
 }
 nav{
-  padding-top: 100px;
+  padding-top: 60px;
+  width: 1236px;
+  margin: 0 auto;
+  font-size: 18px;
+  padding-bottom: 16px;
 }
 section{
   display: grid;
@@ -179,7 +191,7 @@ section{
 }
 
 @media screen and (max-width: 1300px) {
-  header{.innerBackground{.contentContainer{width: 924px;}}}
+  header .innerBackground .contentContainer,nav{width: 924px;}
   section {
     grid-template-columns: repeat(3, 300px);
     grid-template-areas: 
@@ -190,9 +202,9 @@ section{
   }
 }
 @media screen and (max-width: 1000px) {
-  header{.innerBackground{.contentContainer{width: 612px;}}}
+  header .innerBackground .contentContainer nav{width: 612px;}
   section {
-    grid-template-columns: 612px;
+    grid-template-columns: repeat(2, 300px);
     grid-template-rows: 270px 270px auto;
     grid-template-areas: 
       "wo"

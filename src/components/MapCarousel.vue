@@ -1,7 +1,7 @@
 <template>
     <div id="map-carousel" >
         <div class="title">气象图</div>
-        <div class="swiper-outer">
+        <div class="swiper-outer mapSwiper">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" v-for="item in category">
@@ -41,16 +41,16 @@ export default {
         }
     },
     mounted() {
-        const mySwiper = new Swiper('.swiper-container', {
+        new Swiper('.mapSwiper .swiper-container', {
             observe: true,
             slidesPerView: 2.5,
             spaceBetween: 12,
             pagination: {
-                el: '.swiper-pagination',
+                el: '.mapSwiper .swiper-pagination',
             },
             navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
+                nextEl: ".mapSwiper .swiper-button-next",
+                prevEl: ".mapSwiper .swiper-button-prev",
             },
             breakpoints: {
                 1000: {
@@ -74,7 +74,7 @@ export default {
         font-size: 14px;
         font-weight: 600;
     }
-    .swiper-outer{
+    .mapSwiper{
         position: relative;
         .swiper-container{
             .swiper-slide{
@@ -125,7 +125,7 @@ export default {
                 }
             }
         }
-        .swiper-button-prev, .swiper-button-next{
+        .swiper-button-black{
             background-color: white;
             width: 28px;
             height: 28px;
@@ -136,7 +136,7 @@ export default {
         }
         .swiper-button-prev{left: -14px;}
         .swiper-button-next{right: -14px;}
-        .swiper-button-prev::after, .swiper-button-next::after{font-size: 14px;}
+        .swiper-button-black::after{font-size: 14px;}
     }
 }
 </style>

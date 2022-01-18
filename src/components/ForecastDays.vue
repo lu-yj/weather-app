@@ -1,7 +1,7 @@
 <template>
     <div id="forecast-days">
         <div class="title">未来 7 天预报</div>
-        <div class="swiper-outer">
+        <div class="swiper-outer daySwiper">
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide" v-for="(item, idx) in forecast_24h">
@@ -41,55 +41,28 @@ export default {
     },
     props: ['forecast_24h'],
     mounted() {
-        const mySwiper = new Swiper('.swiper-container', {
+        new Swiper('.daySwiper .swiper-container', {
             observe: true,
             slidesPerView: 2,
             spaceBetween: 12,
             pagination: {
-                el: '.swiper-pagination',
+                el: '.daySwiper .swiper-pagination',
             },
             navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
+                nextEl: ".daySwiper .swiper-button-next",
+                prevEl: ".daySwiper .swiper-button-prev",
             },
 
             breakpoints: {
                 1000: {
                     slidesPerView: 3,
-                    spaceBetween: 20,
                 },
                 1300: {
                     slidesPerView: 4,
-                    
                 },
             },
         });
     },
-    // updated() {
-    //     const mySwiper = new Swiper('.swiper-container', {
-    //         observe: true,
-    //         slidesPerView: 2,
-    //         spaceBetween: 12,
-    //         pagination: {
-    //             el: '.swiper-pagination',
-    //         },
-    //         navigation: {
-    //             nextEl: ".swiper-button-next",
-    //             prevEl: ".swiper-button-prev",
-    //         },
-
-    //         breakpoints: {
-    //             1000: {
-    //                 slidesPerView: 3,
-    //                 spaceBetween: 20,
-    //             },
-    //             1300: {
-    //                 slidesPerView: 4,
-                    
-    //             },
-    //         },
-    //     });
-	// },
 }
 </script>
 
@@ -100,7 +73,7 @@ export default {
         font-size: 14px;
         font-weight: 600;
     }
-    .swiper-outer{
+    .daySwiper{
         position: relative;
         .swiper-container{
             .swiper-slide{

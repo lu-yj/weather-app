@@ -116,6 +116,9 @@ export default {
         .location, .matchItem{
             height: 40px;
         }
+        .record{
+            display: flex;
+        }
         .hotCity{
             display: grid;
             grid-template-columns: repeat(4, 60px);
