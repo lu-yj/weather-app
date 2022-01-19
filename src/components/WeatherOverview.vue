@@ -6,7 +6,7 @@
             <div class="degree">{{observe.degree}}°</div>
             <div class="weatherShort">{{observe.weather_short}}</div>
         </div>
-        <div class="tips">{{tips}}</div>
+        <div class="tips">{{tips ? tips[0] : ''}}</div>
         <div class="detail">
             <div>
                 <div class="key">空气质量指数</div>

@@ -1,0 +1,30 @@
+{
+  "id": "3146731",
+  "name": "weather-app",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "17971986",
+      "name": "望远镜-1",
+      "font_class": "wangyuanjing",
+      "unicode": "e6bc",
+      "unicode_decimal": 59068
+    },
+    {
+      "icon_id": "1810866",
+      "name": "天文望远镜",
+      "font_class": "tianwenwangyuanjing",
+      "unicode": "e71a",
+      "unicode_decimal": 59162
+    },
+    {
+      "icon_id": "8634398",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    }
+  ]
+}

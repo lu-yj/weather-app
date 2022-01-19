@@ -1,11 +1,19 @@
 <template>
     <div id="search-box">
-        <input type="text" placeholder="搜索市、区、县等" v-model.trim="input">
+        <div class="inputContainer">
+            <input type="text" placeholder="搜索市、区、县等" v-model.trim="input">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-sousuo"></use>
+            </svg>
+        </div>
         <div class="cityList" v-if="searching && input === ''">
             <div class="title">当前位置</div>
-            <div class="location" @click.stop="$emit('chooseCity', item); updateHistory(item)">{{location.split(', ')[1]}}</div>
+            <div class="location choice" @click.stop="$emit('chooseCity', location); updateHistory(location)">{{location.split(', ')[1]}}</div>
             <div class="history" v-if="searchHistory.toString()">
-                <div class="title" @click.stop="clearHistory()">历史记录 清除</div>
+                <div class="title">
+                    <span>历史记录</span>
+                    <span @click.stop="clearHistory()" class="choice">清除</span>
+                </div>
                 <div class="record">
                     <div v-for="item in searchHistory" @click.stop="$emit('chooseCity', item)">
                         <span class="choice">{{item.split(', ')[1]}}</span>
@@ -86,44 +94,81 @@ export default {
 #search-box{
     width: 310px;
     height: 32px;
-    input::placeholder{color: white;}
-    input{
+    .inputContainer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         width: 100%;
         height: 100%;
-        line-height: 32px;
-        padding-left: 16px;
         border-radius: 16px;
-        background-color: rgba(255, 255, 255, 0.2);
-        border: none;
-        outline: none;
-        font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.2);
+        input::placeholder{color: white;}
+        input{
+            flex: 1;
+            height: 100%;
+            line-height: 32px;
+            padding-left: 16px;
+            border-radius: 16px;
+            background-color: rgba(255, 255, 255, 0);
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+        .icon{
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
     }
+    
     .choice{cursor: pointer;}
-    .cityList, .matchList{
+    .cityList,.matchList{
         width: 100%;
         background-color: rgba(0, 0, 0, 0.3);
         backdrop-filter: blur(30px);
         border-radius: 6px;
         padding: 20px 20px 0;
         font-size: 14px;
-        max-height: 400px;
+        max-height: 450px;
         overflow-y: auto;
         .title{
-            color: rgb(159, 159, 159);
+            color: lightgray;
             height: 24px;
             font-size: 12px;
-        }
-        .location, .matchItem{
-            height: 40px;
-        }
-        .record{
             display: flex;
+            justify-content: space-between;
+            span{
+                color: lightgray;
+            }
         }
-        .hotCity{
+        
+        .location,.matchItem,.record{
+            height: 40px;
+            .icon{
+                width: 14px;
+                height: 14px;
+
+            }
+        }
+        // .location{
+        //     display: flex;
+        //     align-items: center;
+        // }
+        // .history{
+        //     .title{
+        //         display: flex;
+        //         justify-content: space-between;
+        //     }
+            
+        // }
+        .hotCity,.record{
             display: grid;
             grid-template-columns: repeat(4, 60px);
             gap: 10px;
         }
+    }
+    .cityList{
+        padding-bottom: 20px;
     }
 }
 </style>

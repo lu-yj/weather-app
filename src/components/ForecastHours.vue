@@ -2,8 +2,8 @@
     <div id="forecast-hours">
         <div class="title">最近 48 小时预报</div>
         <div class="selectBar">
-            <div class="firstChoice" @click="displayTab = 'echart'">温度概况</div>
-            <div class="secondChoice" @click="displayTab = 'swiper'">更多详情</div>
+            <div class="firstChoice" :class="{isActive: displayTab === 'echart'}" @click="displayTab = 'echart'">温度概况</div>
+            <div class="secondChoice" :class="{isActive: displayTab === 'swiper'}" @click="displayTab = 'swiper'">更多详情</div>
         </div>
         <keep-alive>
             <div id="echart" v-show="displayTab === 'echart'"></div>
@@ -15,7 +15,7 @@
                         <div class="slideBody">
                             <div class="date" v-if="item.update_time.slice(8, 10) === '00' || idx === 0">{{item.update_time.slice(4, 6)}}月{{item.update_time.slice(6, 8)}}日</div>
                             <div class="slideBodyTop">
-                                <img class="weatherCode" :src="`http://mat1.gtimg.com/pingjs/ext2020/weather/pc/icon/weather/day/${item.weather_code}.png`">
+                                <img class="weatherCode" :src="`http://mat1.gtimg.com/pingjs/ext2020/weather/pc/icon/weather/${isNight(item.update_time.slice(8, 10))}/${item.weather_code}.png`">
                                 <div class="degree">{{item.degree}}°</div>
                                 <div class="weatherShort">{{item.weather_short}}</div>
                             </div>
@@ -49,7 +49,7 @@ export default{
             time: [],
             midnightIndex: [],
             myChart: null,
-            displayTab: 'echart'
+            displayTab: 'echart',
         }
     },
     props: ['forecast_1h'],
@@ -79,8 +79,7 @@ export default{
         }
     },
     methods: {
-        isNight() {
-            let hour = new Date().getHours();
+        isNight(hour) {
             return (hour < 6 || hour >= 18) ? 'night' : 'day';
         },
         handleData(data) {
@@ -94,8 +93,8 @@ export default{
             // if (this.myChart != null && this.myChart!= "" && this.myChart!= undefined) {
             //     this.myChart.dispose();
             // }
-            this.myChart = echarts.init(document.getElementById('echart'));
-            this.myChart.setOption({
+            let myChart = echarts.init(document.getElementById('echart'));
+            myChart.setOption({
                 grid: {
                     containLabel: true,
                     left: 0,
@@ -189,8 +188,12 @@ export default{
                         },
                     }
                 ]
+                
             })
-            
+            window.addEventListener('resize', function () {
+                myChart.resize();
+                console.log('图表大小变了')
+            });
         }
     },
     mounted() {
@@ -212,6 +215,7 @@ export default{
             },
         });
         this.drawLine();
+        
     }
 }
 </script>
@@ -231,11 +235,16 @@ export default{
         border-top-left-radius: 6px;
         border-top-right-radius: 6px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        .firstChoice, .secondChoice{
+        .firstChoice,.secondChoice{
             width: 88px;
-            padding-left: 10px;
+            margin-left: 10px;
             font-size: 12px;
             text-align: center;
+            cursor: pointer;
+        }
+        .isActive{
+            font-weight: 600;
+            border-bottom: solid 2px white;
         }
     }
     #echart,.hourSwiper{

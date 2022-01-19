@@ -1,14 +1,17 @@
 <template>
   <div id="air-quality-map">
-    <div v-for="displayHour in ['08', '10', '12', '14', '16', '18', '20', '22']">
+    <div v-for="displayHour in ['00', '03', '06', '09', '12', '15', '18', '21']">
       <div class="patch" v-show="displayHour === displayTime.split(':')[0]">
-        <img v-for="img in imgs" :src="`https://assets.msn.com/weathermapdata/1/airqualityheatmaprendered/cn/${img}_6_20220114${displayHour}00.jpg`" alt="">
+        <img v-for="img in imgs" :src="`https://assets.msn.com/weathermapdata/1/airqualityheatmaprendered/cn/${img}_6_${yesterday.split('-').join('')}${displayHour}00.jpg`" alt="">
       </div>
     </div>
-    <div class="timestamp">{{displayTime}}</div>
+    <div class="timestamp">
+      <span>{{yesterday}}</span>
+      <span>{{displayTime}}</span>
+    </div>
     <img class="baseMap" src="https://dev.ditu.live.com/REST/v1/Imagery/Map/RoadOndemand/31.970,120.940/6?mapSize=768,512&key=AnTcaqBi2ypp0xI-OZNi4W_ik2KhjgpqioTAtXLC8GzkMBQRMlyxvxyTnd5b73im&c=zh-cn&maxAge=86400&shading=terrain&st=me|lv:0_vg|v:0_nh|lv:1_pp|lv:1_trs|v:1;lv:0;sc:FF6B6B6B;fc:FF6B6B6B;strokeWidthScale:0.2_cst|v:1;fc:FF000000;strokeWidthScale:0.5_pt|v:0&ml=fg" alt="">
     <div class="advice">
-      <div class="div">查看全球空气质量</div>
+      <div class="div">查看实时空气质量</div>
       <a href="https://www.msn.cn/zh-cn/weather/maps/airquality" target="blank">打开地图</a>
     </div>
   </div>
@@ -25,16 +28,17 @@ export default {
              '53_26',
              '54_26'
       ],
-      displayTime: '08:00'
+      displayTime: '00:00'
     }
   },
+  props: ['yesterday'],
   methods: {
     changeTime() {
       setInterval(() => {
-        if (this.displayTime.split(':')[0] >= 22) {
-          this.displayTime = '08:00';
+        if (this.displayTime.split(':')[0] >= 21) {
+          this.displayTime = '00:00';
         } else {
-          this.displayTime = (parseInt(this.displayTime) + 2) / 10 >= 1 ? (parseInt(this.displayTime) + 2) + ':00' : '0' + (parseInt(this.displayTime) + 2) + ':00';
+          this.displayTime = (parseInt(this.displayTime) + 3) / 10 >= 1 ? (parseInt(this.displayTime) + 3) + ':00' : '0' + (parseInt(this.displayTime) + 3) + ':00';
         }
       }, 1000);
     }
@@ -64,7 +68,11 @@ export default {
     position: absolute;
     top: 4px;
     right: 4px;
+    left: 4px;
     text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: space-between;
+    z-index: 3;
   }
   .baseMap{
     // width: 768px;

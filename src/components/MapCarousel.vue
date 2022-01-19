@@ -68,7 +68,7 @@ export default {
 
 <style lang="less" scoped>
 #map-carousel{
-    margin-bottom: 100px;
+    margin-bottom: 60px;
     .title{
         height: 34px;
         font-size: 14px;
